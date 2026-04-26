@@ -16,15 +16,16 @@ MiCA consists of two lightweight and complementary adapter designs. The Global-L
 
 ## Global-Local Integrated Adapter (GLIA)
 
-<img src="img/glia.png">
-
 GLIA is inserted into the backbone in a serial manner. It combines multi-scale depthwise convolution with lightweight attention, enabling the model to capture fine-grained local structures while preserving global contextual dependencies.
 
 ## Cross-Modal Alignment Adapter (CAA)
 
-<img src="img/caa.png">
-
 CAA is introduced as a parallel adapter for explicit cross-modal alignment. It employs feature-wise linear modulation (FiLM) and cross-modal attention to adapt visual features according to the referring expression, improving the semantic correspondence between language tokens and image regions.
+
+<p align="center">
+  <img src="img/glia.png" width="48%" alt="Global-Local Integrated Adapter">
+  <img src="img/caa.png" width="48%" alt="Cross-Modal Alignment Adapter">
+</p>
 
 # Introduction
 
@@ -47,8 +48,8 @@ The method addresses two key challenges in dense multimodal prediction: intra-mo
 ## Environment
 
 ```bash
-conda create -n DETRIS python=3.9.18 -y
-conda activate DETRIS
+conda create -n MiCA python=3.9.18 -y
+conda activate MiCA
 pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2
 pip install -r requirement.txt
 ```
