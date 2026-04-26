@@ -1,10 +1,6 @@
 # MiCA
 
-Official PyTorch implementation of **MiCA: Intra-Modal Integration and Cross-Modal Alignment Adapters for Parameter-Efficient Referring Image Segmentation**.
-
-> **IEEE Transactions on Circuits and Systems for Video Technology (TCSVT), 2026**
->
-> Yang Li, Ziteng Feng, Tingrui Wang, Chenyu Wang, Xin Zhou
+This is an official PyTorch implementation of [MiCA: Intra-Modal Integration and Cross-Modal Alignment Adapters for Parameter-Efficient Referring Image Segmentation](https://ieeexplore.ieee.org/document/11475681).
 
 # Overall Architecture
 
