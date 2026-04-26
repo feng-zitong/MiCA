@@ -100,32 +100,7 @@ CUDA_VISIBLE_DEVICES=0 python3 -u test.py \
          DATA.dataset refcoco \
          DATA.mask_root datasets/masks/refcoco
 ```
-## Demo
 
-Use the following command to visualize the segmentation mask for your own image and expression:
-
-```shell
-python demo.py \
-  --config config/refcoco/MiCA_base.yaml \
-  --ckpt /path/to/best_model.pth \
-  --img_path img/piece.png \
-  --input_text "left piece slice" \
-  --save_path img/left_piece_result.png
-
-```
-
-## Code Map
-
-- `model/serial_adapter.py`: GLIA-style intra-modal adapter with multi-scale depthwise convolution and lightweight attention.
-- `model/adapter.py`: CAA-style cross-modal adapter with FiLM modulation and cross-modal attention.
-- `model/segmenter.py`: main segmentation model that integrates visual backbone, text backbone, decoder, and adapters.
-- `config/`: training and evaluation configurations for RefCOCO, RefCOCO+, and G-Ref.
-- `run_scripts/`: example scripts for training and evaluation.
-- `tools/`: dataset preparation and conversion utilities.
-
-## Results
-
-Detailed benchmark tables and trained model links will be released soon.
 
 # Acknowledgements
 
