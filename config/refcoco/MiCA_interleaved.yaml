@@ -1,0 +1,125 @@
+DATA:
+  dataset: refcoco
+  train_lmdb: datasets/lmdb/refcoco/train.lmdb
+  train_split: train
+  val_lmdb: datasets/lmdb/refcoco/val.lmdb
+  val_split: val
+  mask_root: datasets/masks/refcoco
+TRAIN:
+  # =========================== ADAPTER 配置 ===========================
+  
+  # 1. 原版复杂adapter (已完全移除)
+  visual_adapter_dim: 128  # 保留兼容性
+  visual_adapter_layer: []  # 已移除，请使用新版系统
+  txt_adapter_dim: 64      # 保留兼容性
+  txtual_adapter_layer: [] # 已移除，请使用新版系统
+  
+  # 2. 串联Adapter配置 (Multi-Scale Lite Adapter) - 交错设计版本
+  use_multiscale_lite_adapter: True
+  visual_multiscale_lite_adapter:
+    enabled: True
+    dim: 128 # 瓶颈维度
+    layers: [1, 5, 9]  # 交错放置
+    kernel_sizes: [3, 5, 7]  # 多尺度卷积核大小
+    num_heads: 4  # 轻量注意力头数
+    scaling_factor: 0.5  # 缩放因子
+    learnable_scale: True  # 是否使用可学习缩放
+    dropout: 0.1  # Dropout比例
+  
+  text_multiscale_lite_adapter:
+    enabled: True
+    dim: 64 # 瓶颈维度
+    layers: [1, 5, 9]  # 交错放置
+    kernel_sizes: [3, 5, 7]  # 多尺度卷积核大小
+    num_heads: 4  # 轻量注意力头数
+    scaling_factor: 0.5  # 缩放因子
+    learnable_scale: True  # 是否使用可学习缩放
+    dropout: 0.1  # Dropout比例
+  
+  # 3. 并联Adapter配置 (V2版本) - 交错设计版本
+  # 插入位置：在FFN层内部，与MLP输出相加
+  use_parallel_v2_adapter: True
+  parallel_v2_visual_adapter:
+    enabled: True
+    dim: 128 # 瓶颈维度
+    layers: [3, 7, 11]  # 交错放置
+    kernel_sizes: [3, 5, 7]  # 多尺度卷积核大小
+    embed_dim: 128  # Cross-modal attention的嵌入维度
+    num_heads: 8  # Cross-modal attention头数
+    text_dim: 512  # 文本特征维度
+    scaling_factor: 0.2  # 固定缩放因子(当learnable_scale=False时使用)
+    learnable_scale: True  # 使用可学习的门控缩放
+    dropout: 0.1  # Dropout比例
+    skip_connect: False  # 是否使用skip connection
+    use_film: True  # 启用FiLM特征调制模块
+  
+  use_parallel_v2_text_adapter: True
+  parallel_v2_text_adapter:
+    enabled: True
+    dim: 64  # 瓶颈维度
+    layers: [3, 7, 11]  # 交错放置
+    kernel_sizes: [3, 5, 7]  # 多尺度卷积核大小
+    num_heads: 4  # Lite attention头数
+    scaling_factor: 0.2  # 固定缩放因子
+    learnable_scale: True  # 使用可学习的门控缩放
+    dropout: 0.1  # Dropout比例
+    skip_connect: False  # 是否使用skip connection
+  
+  # =========================== 模型架构配置 ===========================
+  
+  # Base Arch
+  clip_pretrain: pretrain/ViT-B-16.pt
+  dino_pretrain: pretrain/dinov2_vitb14_reg4_pretrain.pth
+  dino_layers: 12  # DINOV2总层数
+  output_dinov2: [4, 8]
+  dino_name: dino-base
+  model_name: CLIP-b-16
+  input_size: 448
+  word_len: 17
+  word_dim: 512
+  ladder_dim: 128
+  nhead: 8
+  multi_stage: 3
+  stride: [1, 1, 1]
+  vis_dim: 512
+  fpn_in: [768, 768, 768] #dinov2 backbone
+  fpn_out: [256, 512, 1024]
+  sync_bn: True
+
+  # Decoder
+  num_layers: 3
+  num_head: 8
+  dim_ffn: 512
+  dropout: 0.1
+  intermediate: False 
+  
+  # =========================== 训练配置 ===========================
+  
+  # Training Setting
+  workers: 32  # data loader workers
+  workers_val: 16
+  epochs: 50
+  milestones: [35,45]
+  start_epoch: 0
+  batch_size: 32  # batch size for training
+  batch_size_val: 64  # batch size for validation during training, memory and speed tradeoff
+  base_lr: 0.0001
+  lr_decay: 0.1
+  lr_multi: 1.0
+  weight_decay: 0.
+  max_norm: 1.0
+  manual_seed: 0
+  print_freq: 100
+  
+  # Resume & Save
+  exp_name: MiCA_interleaved
+  output_folder: exp/refcoco_curve_comparison
+  save_freq: 1
+  weight:  # path to initial weight (default: none)
+  resume: # path to latest checkpoint (default: none)
+  evaluate: True  # evaluate on validation set, extra gpu memory needed and small batch_size_val is recommend
+
+TEST:
+  test_split: val-test
+  test_lmdb: datasets/lmdb/refcoco/val.lmdb
+  visualize: False

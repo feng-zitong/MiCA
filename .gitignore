@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments and editor files
+.env
+.venv/
+venv/
+.idea/
+.vscode/
+
+# Datasets, checkpoints, and experiment outputs
+datasets/
+exp/
+pretrain/
+cache/
+results/
+visualization_results/
+keshihua/
+figure/
+
+# Model weights and large artifacts
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.pkl
+*.lmdb
+*.lmdb-lock
+*.zip
+*.tar
+*.tar.gz
+
+# Logs and temporary outputs
+*.log
+logs/
+tmp/
+temp/
+
+# Local generated figures/debug outputs
+debug_*.png
+test_*.png
+adapter_analysis.png
