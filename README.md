@@ -23,22 +23,6 @@ CAA is introduced as a parallel adapter for explicit cross-modal alignment. It e
   <img src="img/caa.png" width="48%" alt="Cross-Modal Alignment Adapter">
 </p>
 
-# Introduction
-
-MiCA is a parameter-efficient transfer learning framework for Referring Image Segmentation (RIS). Instead of fully fine-tuning large vision-language backbones, MiCA updates lightweight adapter modules while keeping most pretrained parameters frozen.
-
-The method addresses two key challenges in dense multimodal prediction: intra-modal feature integration and cross-modal semantic alignment. MiCA introduces two complementary adapters:
-
-- **GLIA (Global-Local Integrated Adapter)** enhances intra-modal feature integration with multi-scale local modeling and global dependency capture.
-- **CAA (Cross-Modal Alignment Adapter)** improves cross-modal alignment by conditioning visual adaptation on language semantics.
-
-## Highlights
-
-- **Parameter efficient**: MiCA updates only about **1.93%** of the backbone parameters in the base setting.
-- **Strong RIS performance**: MiCA achieves state-of-the-art results on RefCOCO, RefCOCO+, and G-Ref while remaining more efficient than full fine-tuning.
-- **Efficient training and inference**: the decoupled sparse integration and single-insertion design reduce computation and memory overhead.
-- **Good generalization**: the learned adapter design also transfers to zero-shot and supervised referring expression comprehension (REC) settings.
-
 # Preparation
 
 ## Environment
