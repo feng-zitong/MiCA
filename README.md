@@ -100,7 +100,17 @@ CUDA_VISIBLE_DEVICES=0 python3 -u test.py \
          DATA.dataset refcoco \
          DATA.mask_root datasets/masks/refcoco
 ```
+## Demo
 
+Use the following command to visualize the segmentation mask for your own image and expression:
+
+```shell
+python demo.py \
+  --config config/refcoco/MiCA_base.yaml \
+  --ckpt /path/to/best_model.pth \
+  --img_path img/piece.png \
+  --input_text "left piece slice" \
+  --save_path img/left_piece_result.png
 
 ```
 
